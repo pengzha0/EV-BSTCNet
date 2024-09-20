@@ -236,9 +236,9 @@ def main():
     parser.add_argument('--se', type=str2bool, default=False)
     parser.add_argument('--base_channel', type=int, default=64)
 
-    parser.add_argument('--ifbinary', type=bool, default=True)
+    parser.add_argument('--ifbinary', type=bool, default=False)
     parser.add_argument('--num_layers', default=4)
-    parser.add_argument('--evaluate', type=str, default=None)
+    parser.add_argument('--evaluate', type=str, default="")
 
     args = parser.parse_args()
     if args.gpus is not None:
@@ -256,10 +256,11 @@ def main():
 
     if args.ifbinary:
         from model.EV_BSTCNet import EV_BSTCNet
+        net = EV_BSTCNet(args).cuda()
     else:
-        from model.model_v8.model import MSTP
-
-    net = EV_BSTCNet(args).cuda()
+        from model.EV_STCNet import EV_STCNet
+        net = EV_STCNet(args).cuda()
+    
 
     print(net, file=f)
 
